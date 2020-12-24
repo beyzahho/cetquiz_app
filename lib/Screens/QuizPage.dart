@@ -10,7 +10,7 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   QuizManager _manager = QuizManager();
-
+  Future<void> quizloader;
   List<Widget> getOptions(Question question) {
     List<Widget> optionButtons = [];
     for (int i = 0; i < question.options.length; i++) {
@@ -45,41 +45,57 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    quizloader = _manager.LoadQuestions(10);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(
               'Questions ${_manager.getCurrentId()}/${_manager.totalQuestionNumber()}'),
         ),
-        body: Container(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 30),
-                  child: Text(
-                    '${_manager.getCurrentQuestion().text}',
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 8,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+        body: FutureBuilder<void>(
+            future: quizloader,
+            builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Container(
+                  padding: EdgeInsets.all(10),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: getOptions(_manager.getCurrentQuestion()),
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          height: 30,
+                          padding: EdgeInsets.symmetric(vertical: 30),
+                          child: Text(
+                            '${_manager.getCurrentQuestion().text}',
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 8,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: getOptions(_manager.getCurrentQuestion()),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-              )
-            ],
-          ),
-        ));
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            }));
   }
 }
