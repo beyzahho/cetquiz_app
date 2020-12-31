@@ -19,18 +19,32 @@ class _ResultPageState extends State<ResultPage> {
         children: [
           CircleAvatar(
             child: Image.asset(
-              'assets/fail.png',
-              width: 200,
-              height: 200,
+              'assets/kupa.png',
+              width: 800,
+              height: 800,
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 50),
+            child: Center(
+              child: Text(
+                'Tebrikler!',
+                style: TextStyle(
+                  fontFamily: 'PermanentMarker',
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
           Text(
-            'Tebrikler Puanınız',
-            style: TextStyle(fontSize: 30),
+            'Toplam skorunuz',
+            style: TextStyle(fontSize: 35),
           ),
           Text(
             '${widget.score}',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
           ),
         ],
       ),

@@ -18,11 +18,13 @@ class HomePage extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 40),
             child: Center(
               child: Text(
-                'Merhaba, Sınava Hoşgeldiniz.',
+                'Merhaba, bilişim sınavına hoşgeldiniz. '
+                'Kendinizi bilişim dünyasında test etmeye var mısınız?',
                 style: TextStyle(
+                  fontFamily: 'PermanentMarker',
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -37,9 +39,17 @@ class HomePage extends StatelessWidget {
               gotoQuizPage(context);
             },
             child: Text('Start'),
+          ),
+          RaisedButton(
+            onPressed: () {
+              gotoQuizAbout(context);
+            },
+            child: Text('About'),
           )
         ],
       ),
     );
   }
+
+  void gotoQuizAbout(BuildContext context) {}
 }
